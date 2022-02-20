@@ -1,4 +1,4 @@
-import * as contactActions from "contactActions";
+import * as contactActions from "./actions";
 
 export const setContact = (contact)=>{
     return {
@@ -7,7 +7,7 @@ export const setContact = (contact)=>{
     }
 }
 
-export const UpdateContact = (contact)=>{
+export const updateContact = (contact)=>{
     return {
         type : contactActions.UPDATE_CONTACT,
         payload : contact

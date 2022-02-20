@@ -2,18 +2,18 @@ import React from "react";
 import ResumePreview from './resumePreview'
 import  jsPDF  from "jspdf";
 import html2canvas from 'html2canvas';
-
+import { connect } from "react-redux";
    function Finalize(props) {
     let educationSection= props.educationSection
     let contactSection=props.contactSection
     let documentd=props.document
-  
+
     const saveToDatabase= async()=>{
-     
+
     }
      const downloadResume=()=> {
-    
-       const input = document.getElementById('resumePreview');
+
+      const input = document.getElementById('resumePreview');
       console.log(document)
        html2canvas(input)
          .then((canvas) => {
@@ -22,7 +22,6 @@ import html2canvas from 'html2canvas';
            var width = pdf.internal.pageSize.getWidth();
            var height = pdf.internal.pageSize.getHeight();
            pdf.addImage(imgData, 'JPEG', 0, 0,width,height);
-           // pdf.output('dataurlnewwindow');
            pdf.save("resume.pdf");
          }).catch(function(error){
            console.log(error)
@@ -32,11 +31,11 @@ import html2canvas from 'html2canvas';
       <div className="container full finalize-page" >
       <div className="funnel-section ">
           <div className="finalize-preview-card " id="resumePreview">
-            <ResumePreview contactSection={contactSection} educationSection={educationSection} skinCd={props?.document?.skinCd}></ResumePreview>   
+            <ResumePreview contactSection={contactSection} educationSection={educationSection} skinCd={props?.document?.skinCd}></ResumePreview>
           </div>
-          <div className="finalize-settings center">            
+          <div className="finalize-settings center">
 
-             
+
               <div className=" download-resume resume-options">
                 <p className="no-margin"  >
                   Download Resume As PdF
@@ -54,9 +53,17 @@ import html2canvas from 'html2canvas';
     </div>
     )
 
-    
+
+
+}
+const mapStateToProps = (state)=>{
+  return {
+    document: state.document,
+    contactSection : state.contact,
+    educationSection : state.education,
+  }
 }
 
 
 
-export default (Finalize)
+export default connect(mapStateToProps)(Finalize)

@@ -3,15 +3,16 @@ import { NavLink } from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 import ResumePreview from './resumePreview'
 import {skinCodes, fieldCd} from './../../constants/typeCodes';
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 // import * as educationActions from '../../actions/educationActions';
 // import {bindActionCreators} from 'redux';
+import {setEducation,updateEducation} from '../../redux/actions/educationActions';
 import { useHistory } from "react-router-dom";
 
 function Education(props) {
   console.log('Education');
   let history = useHistory();
-  const [education,setEducation]= useState(props.educationSection);
+  const [education,setEducation]= useState(props.education);
 
   const onchange = (event) => {
     var key =event.target.name;
@@ -26,15 +27,15 @@ function Education(props) {
 }
   const onSubmit = async(e) => {
     //console.log(this.state.educationSection);
-    // if(props.educationSection!=null){
-    //     props.updateEducation(props.document.id,education);
-    // }else{
-    //     props.addEducation(props.document.id,education);
-    // }
+    if(props.educationSection!=null){
+        props.updateEducation(education);
+    }else{
+        props.setEducation(education);
+    }
      history.push('/finalize')
   }
 
-    
+
     return (
       <div className="container med education" >
         <div className="section funnel-section">
@@ -90,7 +91,7 @@ function Education(props) {
             </div>
           </div>
           <div className="preview-card">
-            <ResumePreview contactSection={props.contactSection} educationSection={education} skinCd={props?.document?.skinCd}></ResumePreview>            
+            <ResumePreview contactSection={props.contactSection} educationSection={education} skinCd={props?.document?.skinCd}></ResumePreview>
           </div>
         </div>
       </div>
@@ -98,9 +99,21 @@ function Education(props) {
   }
 
 
+const mapStateToProps = (state)=>{
+  return {
+    document : state.document,
+    contactSection : state.contact,
+    educationSection : state.education
+  }
+}
 
-  
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    setEducation : (education)=>dispatch(setEducation(education)),
+    updateEducation : (education)=>dispatch(updateEducation(education))
+  }
+}
 
 
-export default Education
+export default connect (mapStateToProps,mapDispatchToProps)(Education)
 

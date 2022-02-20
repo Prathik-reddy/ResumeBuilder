@@ -1,4 +1,4 @@
-import * as educationActions from "educationActions";
+import * as educationActions from "./actions";
 
 export const setEducation = (education)=>{
     return {

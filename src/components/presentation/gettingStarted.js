@@ -4,22 +4,25 @@ import {skinCodes} from '../../constants/typeCodes';
 // import { bindActionCreators } from 'redux';
 
 // import { withRouter } from "react-router-dom";
+import {setSkin,updateSkin} from '../../redux/actions/documentActions';
+import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
+
 function GettingStarted(props) {
      let history = useHistory();
      const onChange = async (skinCd) => {
 
-        // if(props.document.id){
-        //     //  props.updateDocument(props.document.id, skinCd);        
-        // }
-        // else{
-        //     //  props.setDocument(skinCd); 
-        // }
+        if(props.document.id){
+             props.updateDocument(skinCd);
+        }
+        else{
+             props.setDocument(skinCd);
+        }
         history.push('/contact');
       }
 
-      
-        return (  
+
+        return (
             <div className="container med gettingStarted">
                 <div className="section">
                     <h1 className=" center">
@@ -35,18 +38,31 @@ function GettingStarted(props) {
                                 <img  className='' src={'/images/' + value + '.svg'}/>
                                 <button type="button" onClick={()=>onChange(value)}  className='btn-select-theme'>USE TEMPLATE</button>
                             </div>);
-    
+
                         })
                     }
                     </div>
-                
+
                 </div>
             </div>
         );
-    
+
 }
-  
+
+const mapStateToProps = (state) =>{
+    return {
+        document : state.document
+    }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+    return {
+        setDocument : (skinCd) => dispatch(setSkin(skinCd)),
+        updateDocument : (skinCd) => dispatch(updateSkin(skinCd))
+    }
+}
 
 
-export default GettingStarted
+
+export default connect(mapStateToProps,mapDispatchToProps)(GettingStarted)
 
